@@ -16,7 +16,8 @@ class Store:
         }
 
     def module_names(self) -> list[str]:
-        return sorted(self._tables)
+        # 以 _ 开头的是业务模块的辅助表（例如采集监控的阈值窗口），不参与模块清单。
+        return sorted(name for name in self._tables if not name.startswith("_"))
 
     def rows(self, module: str) -> list[dict[str, Any]]:
         return self._tables.setdefault(module, [])
